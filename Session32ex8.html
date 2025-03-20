@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+
+        input {
+            width: 70%;
+            padding: 8px;
+            margin-right: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 8px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: white;
+            padding: 10px;
+            margin-top: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid gray;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 5px;
+        }
+
+        .edit-btn {
+            background-color: orange;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .delete-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .edit-btn:hover {
+            background-color: darkorange;
+        }
+
+        .delete-btn:hover {
+            background-color: darkred;
+        }
+
+        #error {
+            color: red;
+            font-size: 14px;
+            display: none;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p>To-Do List K24_PTIT</p>
+        <form id="form">
+            <input type="text" id="mission-name" placeholder="Nhập nhiệm vụ...">
+            <button type="submit">Thêm</button>
+            <span id="error"></span>
+        </form>
+        <ul id="list-mission"></ul>
+    </div>
+
+    <script>
+        let formElement = document.querySelector("#form");
+        let inputElement = document.querySelector("#mission-name");
+        let errorElement = document.querySelector("#error");
+        let listMissionElement = document.querySelector("#list-mission");
+
+        let missions = [];
+
+        function renderMission() {
+            listMissionElement.innerHTML = "";
+
+            missions.forEach((miss, index) => {
+                let liElement = document.createElement("li");
+
+                let spanElement = document.createElement("span");
+                spanElement.textContent = miss.name;
+                let btnGroup = document.createElement("div");
+                btnGroup.classList.add("btn-group");
+
+                // Tạo nút sửa
+                let editBtn = document.createElement("button");
+                editBtn.textContent = "Sửa";
+                editBtn.classList.add("edit-btn");
+                editBtn.addEventListener("click", function () {
+                    let newName = prompt("Nhập tên mới:", miss.name);
+                    if (newName !== null && newName.trim() !== "") {
+                        missions[index].name = newName.trim();
+                        renderMission();
+                    }
+                });
+
+                // Tạo nút xoá
+                let deleteBtn = document.createElement("button");
+                deleteBtn.textContent = "Xóa";
+                deleteBtn.classList.add("delete-btn");
+                deleteBtn.addEventListener("click", function () {
+                    let confirmDelete = confirm("Bạn có chắc chắn muốn xóa nhiệm vụ này?");
+                    if (confirmDelete) {
+                        missions.splice(index, 1);
+                        renderMission();
+                    }
+                });
+
+                btnGroup.appendChild(editBtn);
+                btnGroup.appendChild(deleteBtn);
+
+                liElement.appendChild(spanElement);
+                liElement.appendChild(btnGroup);
+                listMissionElement.appendChild(liElement);
+            });
+        }
+
+        formElement.addEventListener("submit", function (event) {
+            event.preventDefault();
+            let inputValue = inputElement.value.trim();
+
+            if (!inputValue) {
+                errorElement.style.display = "block";
+                errorElement.textContent = "Vui lòng nhập nhiệm vụ!";
+                return;
+            }
+
+            let newMission = { name: inputValue };
+            missions.push(newMission);
+            inputElement.value = "";
+            errorElement.style.display = "none";
+            renderMission();
+            alert("Thêm nhiệm vụ thành công!");
+        });
+    </script>
+</body>
+</html>
