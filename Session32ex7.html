@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .thumbnail {
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+            margin: 10px;
+            border-radius: 5px;
+            transition: transform 0.3s;
+        }
+        .thumbnail:hover {
+            transform: scale(1.1);
+        }
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        #overlay img {
+            max-width: 80%;
+            max-height: 80%;
+            border-radius: 10px;
+            box-shadow: 0 0 10px white;
+        }
+    </style>
+</head>
+<body>
+
+    <img src="https://cdn-i.vtcnews.vn/files/khanhhuy/2017/04/27/3-1527365.jpg" class="thumbnail">
+    <img src="https://images2.thanhnien.vn/528068263637045248/2023/1/31/messi-1675134560213297839746.jpeg" class="thumbnail">
+    <img src="https://vcdn1-thethao.vnecdn.net/2022/12/19/fkscvpyvqaa1fv9-jfif-167139012-9444-5939-1671391905.jpg?w=0&h=0&q=100&dpr=2&fit=crop&s=3hRZ0Szr15s7C7xncexxuw" class="thumbnail">
+    <img src="https://i.ytimg.com/vi/MB_jZCHoa1A/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCLuzUMAeDVmlBd5FwzKGqjtMUX_A" class="thumbnail">
+
+    <div id="overlay">
+        <img id="fullImage" src="">
+    </div>
+
+    <script>
+        let overlay = document.getElementById("overlay");
+        let fullImage = document.getElementById("fullImage");
+        let thumbnails = document.querySelectorAll(".thumbnail");
+
+        thumbnails.forEach(img => {
+            img.addEventListener("click", function() {
+                fullImage.src = this.src;
+                overlay.style.display = "flex";
+            });
+        });
+
+        overlay.addEventListener("click", function() {
+            overlay.style.display = "none";
+        });
+    </script>
+
+</body>
+</html>

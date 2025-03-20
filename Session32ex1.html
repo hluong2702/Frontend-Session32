@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            border: 1px solid black;
+            width: 400px;
+            margin: 30px;
+            padding: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="changeColor">Đổi màu nền</button>
+    </div>
+    <script>
+        let container = document.querySelector(".container");
+        let changeColor = document.querySelector(".changeColor");
+
+        changeColor.addEventListener("click",function(){
+            let r = Math.floor(Math.random() * 256);
+            let g = Math.floor(Math.random() * 256);
+            let b = Math.floor(Math.random() * 256);
+            container.style.backgroundColor =  `rgb(${r}, ${g}, ${b})`;
+        });
+    </script>
+
+</body>
+</html>

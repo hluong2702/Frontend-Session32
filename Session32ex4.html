@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Email</title>
+</head>
+<body>
+    <form id="form">
+        <br>
+        <input type="text" id="email" placeholder="bibabibo@gmail.com">
+        <br>
+        <span style="display: none" id="error"></span>
+        <br>
+        <button type="submit" id="btn-submit">Check</button>
+        <br>
+    </form>
+
+    <script>
+        let formElement = document.querySelector("#form");
+        let inputElement = document.querySelector("#email");
+        let errorElement = document.querySelector("#error");
+
+        formElement.addEventListener("submit", function (event) {
+            event.preventDefault();
+            let inputValue = inputElement.value.trim();
+            let emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|vn)$/;
+
+            if (!inputValue || !emailRegex.test(inputValue)) {
+                errorElement.style.display = "block";
+                errorElement.style.color = "red"
+                errorElement.textContent = "Email không hợp lệ !";
+            } else {
+                errorElement.style.display = "block";
+                errorElement.style.color = "green";
+                errorElement.textContent = "Email hợp lệ !";
+            }
+        });
+    </script>
+</body>
+</html>

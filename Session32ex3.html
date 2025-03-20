@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <form id="form">
+            <input type="text" id="subject-name" placeholder="Nhập tên môn học">
+            <button type="submit" id="btn-submit">Thêm môn học</button>
+        </form>
+        <span style="display: none" id="error"></span>
+    </div>
+    <ol id="list-subject"></ol>
+
+    <script>
+        let formElement = document.querySelector("#form");
+        let inputElement = document.querySelector("#subject-name");
+        let errorElement = document.querySelector("#error");
+        let listSubjectElement = document.querySelector("#list-subject");
+
+        let subjects = [];
+
+        function renderSubject() {
+            listSubjectElement.innerHTML = "";
+
+            subjects.forEach((sub, index) => {
+                let liElement = document.createElement("li");
+                liElement.textContent = sub.name;
+                listSubjectElement.appendChild(liElement);
+            });
+        }
+
+        inputElement.addEventListener("input", function (event) {
+            let inputValue = event.target.value.trim();
+            if (!inputValue) {
+                errorElement.style.display = "block";
+                errorElement.textContent = "Tên môn học không được để trống";
+            } else {
+                errorElement.style.display = "none";
+            }
+        });
+
+        formElement.addEventListener("submit", function (event) {
+            event.preventDefault();
+            let inputValue = inputElement.value.trim();
+
+            if (!inputValue) {
+                errorElement.style.display = "block";
+                errorElement.textContent = "Vui lòng nhập môn học";
+                return;
+            }
+
+            let newSubject = {
+                id: Math.ceil(Math.random() * 10000),
+                name: inputValue
+            };
+
+            subjects.push(newSubject);
+            inputElement.value = "";
+            renderSubject();
+            alert("Thêm môn học thành công!");
+        });
+
+    </script>
+</body>
+</html>

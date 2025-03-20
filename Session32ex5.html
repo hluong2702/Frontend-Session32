@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container{
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+
+        input{
+            width: 70%;
+            padding: 8px;
+            margin-right: 5px;
+            border: 1px solid #ccc ;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 8px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: white ;
+            padding: 10px;
+            margin-top: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid gray;
+        }
+
+        .delete-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            width: 25px;
+            height: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .delete-btn:hover {
+            background-color: darkred;
+        }
+
+        #error {
+            color: red;
+            font-size: 14px;
+            display: none;
+            margin-top: 5px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p>To-Do List K24_PTIT</p>
+        <form id="form">
+            <input type="text" id="mission-name" placeholder="Nhập nhiệm vụ....">
+            <button type="submit">Thêm</button>
+            <span id="error" style="display: none"></span>
+        </form>
+        <ul id="list-mission"></ul>
+    </div>
+
+    <script>
+        let formElement = document.querySelector("#form");
+        let inputElement = document.querySelector("#mission-name");
+        let errorElement = document.querySelector("#error");
+        let listMissionElement = document.querySelector("#list-mission");
+
+        let missions = [];
+
+        function renderMission() {
+            listMissionElement.innerHTML = "";
+
+            missions.forEach((miss, index) => {
+                let liElement = document.createElement("li");
+                liElement.textContent = miss.name;
+
+                // Tạo nút xoá
+                let deleteBtn = document.createElement("button");
+                deleteBtn.textContent = "X";
+                deleteBtn.classList.add("delete-btn");
+
+                deleteBtn.addEventListener("click", function () {
+                    let confirmDelete = confirm("Bạn có chắc chắn muốn xóa nhiệm vụ này?");
+                    if (confirmDelete) {
+                        missions.splice(index, 1);
+                        renderMission();
+                    }
+                });
+
+                liElement.appendChild(deleteBtn);
+                listMissionElement.appendChild(liElement); 
+            });
+        }
+
+        inputElement.addEventListener("input", function (event) {
+            let inputValue = event.target.value.trim();
+            if (!inputValue) {
+                errorElement.style.display = "block";
+                errorElement.textContent = "Tên nhiệm vụ không được để trống";
+            } else {
+                errorElement.style.display = "none";
+            }
+        });
+
+        formElement.addEventListener("submit", function (event) {
+            event.preventDefault();
+            let inputValue = inputElement.value.trim();
+
+            if (!inputValue) {
+                errorElement.style.display = "block";
+                errorElement.textContent = "Vui lòng nhập nhiệm vụ";
+                return;
+            }
+
+            let newMission = {
+                id: Math.ceil(Math.random() * 10000),
+                name: inputValue
+            };
+
+            missions.push(newMission);
+            inputElement.value = "";
+            renderMission();
+            alert("Thêm nhiệm vụ thành công!");
+        });
+    </script>
+</body>
+</html>
